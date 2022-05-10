@@ -1,0 +1,16 @@
+.card-container {
+    padding: 0px;
+    margin-top: 80px;
+    position: relative;
+    }
+    .form-content{
+        padding: 30px;
+    }
+    .toolbar{
+        text-align: center;
+        background-color: rgb(212, 209, 209);
+    
+    }
+    .mat-button{
+       background-color: rgb(41, 117, 240);
+    }
