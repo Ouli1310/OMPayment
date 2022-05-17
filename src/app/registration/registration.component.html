@@ -1,13 +1,13 @@
 
-
-<div class="col-md-12">
   
-  <div class="card-container" fxLayoutAlign="center center" fxFlexFill>
+ <div class="card-container" fxLayout="row" fxLayoutAlign="center center" fxFlexFill>
   
-    <mat-card fxFlex="45"> 
+    <mat-card fxFlex="60"> 
       
       
-    
+      <img mat-card-image class="home-image" src="../../../assets/images/logo_AirSenegal.jpg" fxFlex="50%">
+   
+      <div class="formulaire" fxFlex="50%">
     
      
       <mat-toolbar class="toolbar">
@@ -16,7 +16,7 @@
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           class="profile-img-card"align-items="center"
         /> -->
-        <mat-card-title>
+        <mat-card-title class="title-center">
           <span>Registration</span>
         </mat-card-title>
          
@@ -27,13 +27,6 @@
         
           
       </mat-toolbar>
-     
-        
-      <div *ngIf="isSuccessful" class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong >Success: </strong>
-          <span>User registration successful</span>
-          <button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Close">X</button>
-      </div>
 
       <form *ngIf="!isSuccessful" [formGroup]="registerForm" class="form-content" fxLayoutAlign="stretch" fxLayout="column"  (ngSubmit)="registerForm.valid && onSubmit()" novalidate>
         <mat-form-field>
@@ -92,23 +85,29 @@
             </div>
         </mat-form-field>
         <mat-form-field>
-          <input matInput id="profil" type="profil" formControlName = "profil" required placeholder="profil">
-            <div class="alert-danger" *ngIf="f['profil'].errors && f['profil'].touched">
+          <mat-select id="profil" type="text" formControlName="profil" placeholder="profil">
+            <mat-option *ngFor="let p of profils" [value]=p (onSelectionChange) = "getProfilChoisi(p)">
+              {{p.name}}
+            </mat-option>
+          </mat-select>
+         <div class="alert-danger" *ngIf="f['profil'].errors && f['profil'].touched">
               <div *ngIf="f['profil'].errors?.['required']">Profil is required</div>
               
             </div>
         </mat-form-field>
         <button [disabled]="registerForm.invalid" class="mat-button" mat-raised-button  type="submit" >Sign Up</button>
-        <div class="alert alert-danger" *ngIf="isSignUpFailed">
+        <div class="alert alert-danger" *ngIf="submitted && !isSuccessful">
           Signup failed!<br />
         </div>
       </form>
+      <div class="alert alert-success" *ngIf="isSuccessful">
+        Your registration is successful!
+      </div>
+
+      </div>
     </mat-card>
-    <div class="alert alert-success" *ngIf="f['submit'] && isSuccessful">
-      Your registration is successful!
-    </div>
-    
-  </div> 
+   
+
 </div>
 
 

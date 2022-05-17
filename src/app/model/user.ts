@@ -23,13 +23,10 @@ export class LoginRequest {
 }
 
 export class User {
-    id!: number;
     firstName!: string;
     lastName!: string;
     email!: string;
-    msisdn!: string;
+    msisdn!: number;
     password!: string;
-    balance!: Balance;
     profil!: number;
-    Transactions!: Transaction[];
 }

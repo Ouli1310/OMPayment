@@ -25,6 +25,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { HomeComponent } from './home/home.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { ListeTransactionComponent } from './liste-transaction/liste-transaction.component';
+import { AddTransactionComponent } from './add-transaction/add-transaction.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,10 @@ import { FooterComponent } from './shared/footer/footer.component';
     LoginComponent,
     ProfilComponent,
     ToolbarComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent,
+    ListeTransactionComponent,
+    AddTransactionComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +60,8 @@ import { FooterComponent } from './shared/footer/footer.component';
     MatFormFieldModule,
     MatInputModule,
     FlexLayoutModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,39 @@
+
+  
+    <div class="card-container" fxLayoutAlign="center center" fxFlexFill>
+    
+      <mat-card class="mat-class" fxFlex="50"> 
+
+        
+            <img mat-card-image class="home-image" src="../../../assets/images/800X200.png">
+
+   
+        <mat-toolbar class="toolbar">
+
+   
+                <mat-card-title class="title-center">
+                
+                      <span>
+                        Bienvenue sur la plateforme 
+                        de paiement OM
+                      </span>  
+                
+                </mat-card-title>
+
+            </mat-toolbar>
+  
+
+            
+
+            <mat-card-actions class="actions">
+
+                <a href="/login"  matTooltip="Déjà un compte? Connectez-vous!">Connexion</a>
+    
+     <button mat-raised-button style="color: primary;" (click)="register()"  matTooltip="Vous n'avez pas encore de compte? Inscrivez-vous!"> Inscription
+      <!-- <mat-icon aria-hidden="false" aria-label="Example register icon" matTooltip="Inscrivez-vous ici">register</mat-icon>-->
+     </button> 
+            </mat-card-actions>
+
+
+      </mat-card>
+    </div>

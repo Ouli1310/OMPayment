@@ -1,0 +1,20 @@
+.card-container {
+    padding: 0px;
+    margin-top: 0px;
+    }
+    .toolbar {
+        text-align: center;
+        background-color:crimson;
+    }
+    .home-image {
+        height: 200px;
+    }
+    .title-center {
+        flex: 1 1 auto;
+    }
+    .actions {
+        float: right;
+    }
+    .mat-class {
+        height: 350px;
+    }

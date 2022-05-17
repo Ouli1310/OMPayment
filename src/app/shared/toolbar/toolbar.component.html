@@ -1,14 +1,15 @@
-<div class="toolbar" role="banner">
-  <img class="img" src="/src/assets/images/logo.jpg" alt="" height="50px" width="50px">
+<div class="toolbar" role="banner" *ngIf="url != loginUrl && url != homeUrl && url != registerUrl">
+  <img class="img" src="../../../assets/images/logo.jpg" height="50" width="50">
     <span>Plateforme de payment OM</span>
       <div class="spacer"></div>
         <!--<mat-icon aria-hidden="false" aria-label="Example login icon" matTooltip="Connectez-vous ici">login</mat-icon>-->
-        <button (click)="login()">
+        <!--<button class="mat-flat-button" (click)="login()">
           Login
-        </button>
+        </button>-->
+        <a href="/login">Login</a>
         
       <div style="margin: 5px;"></div>
-     <button (click)="register()"> Register
+     <button class="mat-raised-button" style="color: primary;" (click)="register()"> Register
       <!-- <mat-icon aria-hidden="false" aria-label="Example register icon" matTooltip="Inscrivez-vous ici">register</mat-icon>-->
      </button> 
   </div>

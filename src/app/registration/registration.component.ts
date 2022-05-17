@@ -1,7 +1,9 @@
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../model/user';
+import { Profil, User } from '../model/user';
 import { AuthService } from '../service/auth.service';
+import { ProfilService } from '../service/profil.service';
 
 @Component({
   selector: 'app-registration',
@@ -24,10 +26,12 @@ export class RegistrationComponent implements OnInit {
 
 
   isSuccessful = false;
-  isSignUpFailed = false;
   errorMessage = '';
+  profilChoisi!: Profil;
+  profils!: Profil[];
+  submitted = false;
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private profilService: ProfilService) { }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -39,6 +43,8 @@ export class RegistrationComponent implements OnInit {
       profil: ['', Validators.required]
     })
 
+
+    this.getProfils();
   }
 
   get firstName() {
@@ -85,37 +91,42 @@ export class RegistrationComponent implements OnInit {
     })
   } */
 
-  
-
-  private register(): User{
-    const newUser = new User();
-    newUser.firstName = this.f['firstName'].value;
-    newUser.lastName = this.f['lastName'].value;
-    newUser.email = this.f['email'].value;
-    newUser.msisdn = this.f['msisdn'].value;
-    newUser.password = this.f['password'].value;
-    newUser.profil = this.f['profil'].value;
-
-    this.authService.registration(newUser).subscribe ({
-      next: data => {
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-      },   error: err => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
+  getProfils() {
+    this.profilService.getAllProfils().subscribe (
+      data => {
+        this.profils = data;
       }
-    }
-    
-     
     )
-    console.log(newUser)
-    console.log(this.isSignUpFailed)
-    console.log(this.isSuccessful)
-    return newUser;
   }
 
-  onSubmit() {
-    this.register();
+  getProfilChoisi(p: Profil) {
+    this.profilChoisi = p;
+  }
+
+  onSubmit(): void {
+    this.submitted = true
+    const newUser = new User();
+    newUser.firstName = this.f['firstName'].value
+    newUser.lastName = this.f['lastName'].value
+    newUser.email = this.f['email'].value
+    newUser.msisdn = this.f['msisdn'].value
+    newUser.password = this.f['password'].value
+    newUser.profil = this.profilChoisi.id
+    console.log(newUser)
+    this.authService.registration(newUser).subscribe (
+      {
+        next: data => {
+          this.isSuccessful = true;
+          console.log(data)
+      console.log(this.isSuccessful)
+        },   error: err => {
+          this.errorMessage = err.error.message;
+          console.log("fffffffffffffffffffffff")
+          console.log(err.error)
+        }
+
+      }
+    )
   }
 
   /** onSubmit(): void {

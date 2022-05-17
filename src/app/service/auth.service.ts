@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { LoginComponent } from '../login/login.component';
 //import { stringify } from 'querystring';
 import { environment } from 'src/environments/environment';
-import { Profil } from '../model/user';
+import { Profil, User } from '../model/user';
+import { TokenStorageService } from './token-storage.service';
 //import { env } from 'process';
 
 const httpOptions = {
@@ -16,7 +17,7 @@ const httpOptions = {
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenStorageService) {}
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(environment.apiUrl+'/auth/signin', {
@@ -25,19 +26,27 @@ export class AuthService {
     }, httpOptions)
   }
 
-  register(firstName: string, lastName: string, email: string, msisdn: string, password: string, profil: number): Observable<any> {
+  register(firstName: string, lastName: string, email: string, msisdn: number, password: string, profil: number): Observable<any> {
     return this.http.post(environment.apiUrl+'/auth/signup', {
       firstName,
       lastName,
       email,
       msisdn,
       password,
-      profil
+      profil,
     }, httpOptions);
   }
 
-  registration<Type>(data: Type): Observable<Type>{
-    return this.http.post<Type>(`${environment.apiUrl}/auth/signup`, data, httpOptions);
+  registration(data: User): Observable<any>{
+    console.log("user from registration", data)
+    return this.http.post<User>(`${environment.apiUrl}/auth/signup`, data, httpOptions);
   } 
+
+  isLogged(): boolean {
+    if(this.tokenService.getToken() == null) {
+      return false;
+    }
+    return true;
+  }
    
 }
