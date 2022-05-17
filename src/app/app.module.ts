@@ -29,6 +29,7 @@ import { HomeComponent } from './home/home.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { ListeTransactionComponent } from './liste-transaction/liste-transaction.component';
 import { AddTransactionComponent } from './add-transaction/add-transaction.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { AddTransactionComponent } from './add-transaction/add-transaction.compo
     FooterComponent,
     HomeComponent,
     ListeTransactionComponent,
-    AddTransactionComponent
+    AddTransactionComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

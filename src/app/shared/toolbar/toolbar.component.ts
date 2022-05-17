@@ -26,12 +26,8 @@ export class ToolbarComponent implements OnInit {
     this.registerUrl = environment.registerUrl;
   }
 
-  login() {
-    this.router.navigate(['/login'])
-  }
-
-  register() {
-    this.router.navigate(['register'])
+  logout() {
+    
   }
 
   
