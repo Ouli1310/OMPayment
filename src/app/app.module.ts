@@ -30,7 +30,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ListeTransactionComponent } from './liste-transaction/liste-transaction.component';
 import { AddTransactionComponent } from './add-transaction/add-transaction.component';
 import { MenuComponent } from './menu/menu.component';
-
+import {ButtonModule} from 'primeng/button';
+import {CardModule} from 'primeng/card';
+import {MatGridListModule} from '@angular/material/grid-list';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +65,10 @@ import { MenuComponent } from './menu/menu.component';
     MatInputModule,
     FlexLayoutModule,
     MatToolbarModule,
-    MatDividerModule
+    MatDividerModule,
+    ButtonModule,
+    CardModule,
+    MatGridListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
