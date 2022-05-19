@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
@@ -10,7 +11,6 @@ import { ListeTransactionComponent } from './transactions/liste-transaction/list
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  { path: '', component: HomeComponent},
   { path: 'home', component: HomeComponent},
   { path: 'menu', component: MenuComponent},
   { path: 'transactions', component: ListeTransactionComponent},

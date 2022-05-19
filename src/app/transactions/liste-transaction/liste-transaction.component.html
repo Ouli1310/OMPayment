@@ -1,9 +1,17 @@
-<div>
-    <app-menu></app-menu>
-</div>
 
-<div class="card-container" fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
-
+<div class="container">
+  <div class="row" class="mb-5 my-5">
+    <button *ngIf="!isNewTransaction" pButton type="button" icon="pi pi-plus" label="Nouvelle transaction" 
+    class="p-button-raised p-button-danger p-button-rounded p-button"
+     iconPos="left" (click)="NewTransactionOrList()"></button>
+     <button *ngIf="isNewTransaction" pButton type="button" icon="pi pi-list" label="Transactions" 
+     class="p-button-raised p-button-danger p-button-rounded p-button"
+      iconPos="left" (click)="NewTransactionOrList()"></button>
+  </div>
+  <div *ngIf="isNewTransaction">
+    <app-add-transaction></app-add-transaction>
+  </div>
+  <div *ngIf="!isNewTransaction">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
             
@@ -42,5 +50,5 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-      
+    </div>
 </div>

@@ -30,8 +30,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MenuComponent } from './menu/menu.component';
 import { AddTransactionComponent } from './transactions/add-transaction/add-transaction.component';
 import { ListeTransactionComponent } from './transactions/liste-transaction/liste-transaction.component';
-import {MatTabsModule} from '@angular/material/tabs';
 
+import {ButtonModule} from 'primeng/button';
+import {CardModule} from 'primeng/card';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,9 +68,12 @@ import {MatTabsModule} from '@angular/material/tabs';
     FlexLayoutModule,
     MatToolbarModule,
     MatDividerModule,
+    ButtonModule,
+    CardModule,
+    MatGridListModule,
     MatTabsModule
   ],
-  providers: [],
+  providers: [HomeComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

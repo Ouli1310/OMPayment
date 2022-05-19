@@ -30,3 +30,13 @@ export class User {
     password!: string;
     profil!: number;
 }
+
+export class UserMe {
+    username: string | undefined;
+    password: string | undefined;
+    status: string | undefined;
+    email: string | undefined;
+    role: string | undefined;
+    token?: string;
+    refreshToken?: string;
+}

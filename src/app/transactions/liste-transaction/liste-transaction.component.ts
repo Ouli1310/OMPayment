@@ -29,6 +29,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ListeTransactionComponent implements OnInit {
 
+  isNewTransaction!: boolean
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
 
@@ -43,6 +44,7 @@ export class ListeTransactionComponent implements OnInit {
     this.router.navigate([''])
      
    }
+    this.isNewTransaction = false
   }
 
   getTransactions() {
@@ -54,4 +56,8 @@ export class ListeTransactionComponent implements OnInit {
   }
 
 
+  NewTransactionOrList(): boolean {
+    this.isNewTransaction = !this.isNewTransaction
+    return this.isNewTransaction
+  }
 }
