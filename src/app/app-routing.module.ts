@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ListeTransactionComponent } from './liste-transaction/liste-transaction.component';
 import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { AddTransactionComponent } from './transactions/add-transaction/add-transaction.component';
+import { ListeTransactionComponent } from './transactions/liste-transaction/liste-transaction.component';
 
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
   { path: '', component: HomeComponent},
   { path: 'home', component: HomeComponent},
+  { path: 'menu', component: MenuComponent},
   { path: 'transactions', component: ListeTransactionComponent},
-  { path: 'menu', component: MenuComponent}
+  { path: 'transactions/ajouter-transaction', component: AddTransactionComponent}
 ];
 
 @NgModule({

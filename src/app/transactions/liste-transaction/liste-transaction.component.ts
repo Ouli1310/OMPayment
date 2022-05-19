@@ -1,5 +1,9 @@
+import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
-import { TransactionService } from '../service/transaction.service';
+import { Router } from '@angular/router';
+import { TokenStorageService } from 'src/app/service/token-storage.service';
+import { TransactionService } from 'src/app/service/transaction.service';
+
 
 
 export interface PeriodicElement {
@@ -30,9 +34,15 @@ export class ListeTransactionComponent implements OnInit {
 
   transactions: any;
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(private transactionService: TransactionService, private tokenStorage: TokenStorageService, private router: Router) { }
 
   ngOnInit(): void {
+
+   if(this.tokenStorage.getToken() == null) {
+    console.error("No token");
+    this.router.navigate([''])
+     
+   }
   }
 
   getTransactions() {
@@ -42,4 +52,6 @@ export class ListeTransactionComponent implements OnInit {
       }
     )
   }
+
+
 }

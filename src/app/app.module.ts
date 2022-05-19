@@ -27,9 +27,10 @@ import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { MatDividerModule } from '@angular/material/divider';
-import { ListeTransactionComponent } from './liste-transaction/liste-transaction.component';
-import { AddTransactionComponent } from './add-transaction/add-transaction.component';
 import { MenuComponent } from './menu/menu.component';
+import { AddTransactionComponent } from './transactions/add-transaction/add-transaction.component';
+import { ListeTransactionComponent } from './transactions/liste-transaction/liste-transaction.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -40,9 +41,9 @@ import { MenuComponent } from './menu/menu.component';
     ToolbarComponent,
     FooterComponent,
     HomeComponent,
-    ListeTransactionComponent,
+    MenuComponent,
     AddTransactionComponent,
-    MenuComponent
+    ListeTransactionComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +64,8 @@ import { MenuComponent } from './menu/menu.component';
     MatInputModule,
     FlexLayoutModule,
     MatToolbarModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

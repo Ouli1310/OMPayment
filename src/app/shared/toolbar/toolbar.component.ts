@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -9,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private tokeStorage: TokenStorageService) { }
 
   url!: any;
   homeUrl!: any;
@@ -27,7 +28,8 @@ export class ToolbarComponent implements OnInit {
   }
 
   logout() {
-    
+    this.tokeStorage.signout();
+    this.router.navigate([''])
   }
 
   
