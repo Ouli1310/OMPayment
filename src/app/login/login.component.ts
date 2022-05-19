@@ -13,7 +13,11 @@ import { TokenStorageService } from '../service/token-storage.service';
 export class LoginComponent implements OnInit {
 
 
-  constructor(private authService: AuthService, private tokenStorageService: TokenStorageService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private tokenStorageService: TokenStorageService,
+    private formBuilder: FormBuilder,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -46,9 +50,9 @@ export class LoginComponent implements OnInit {
       next: data => {
         this.tokenStorageService.saveToken(data.token);
         this.tokenStorageService.saveUser(data);
-        this.isLoggedIn = this.authService.isLogged();
         //this.reloadPage();
-        this.router.navigate(['/transactions'])
+        this.authService.loggedIn.next(true)        
+        this.router.navigate([''])
     console.log(this.isLoggedIn)
       },
       error: err => {

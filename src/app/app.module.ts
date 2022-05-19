@@ -33,6 +33,7 @@ import { MenuComponent } from './menu/menu.component';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,8 +70,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
     ButtonModule,
     CardModule,
     MatGridListModule,
+    MatTabsModule
   ],
-  providers: [],
+  providers: [HomeComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -25,6 +25,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ListeTransactionComponent implements OnInit {
 
+  isNewTransaction!: boolean
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
 
@@ -33,6 +34,7 @@ export class ListeTransactionComponent implements OnInit {
   constructor(private transactionService: TransactionService) { }
 
   ngOnInit(): void {
+    this.isNewTransaction = false
   }
 
   getTransactions() {
@@ -41,5 +43,10 @@ export class ListeTransactionComponent implements OnInit {
         this.transactions = data;
       }
     )
+  }
+
+  NewTransactionOrList(): boolean {
+    this.isNewTransaction = !this.isNewTransaction
+    return this.isNewTransaction
   }
 }

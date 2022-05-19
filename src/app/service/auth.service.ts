@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginComponent } from '../login/login.component';
 //import { stringify } from 'querystring';
 import { environment } from 'src/environments/environment';
@@ -16,8 +16,19 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
+  public loggedIn = new BehaviorSubject<boolean>(true)
 
-  constructor(private http: HttpClient, private tokenService: TokenStorageService) {}
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
+  
+  constructor(private http: HttpClient, private tokenService: TokenStorageService) {
+    if(this.tokenService.getToken() != null) {
+      this.loggedIn.next(true)
+    } else {
+      this.loggedIn.next(false)
+    }
+  }
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(environment.apiUrl+'/auth/signin', {
@@ -42,11 +53,4 @@ export class AuthService {
     return this.http.post<User>(`${environment.apiUrl}/auth/signup`, data, httpOptions);
   } 
 
-  isLogged(): boolean {
-    if(this.tokenService.getToken() == null) {
-      return false;
-    }
-    return true;
-  }
-   
 }
