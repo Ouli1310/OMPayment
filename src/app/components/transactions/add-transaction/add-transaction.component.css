@@ -1,0 +1,21 @@
+.card-container {
+    margin-top: 20px;
+    width: 100%;
+}
+.mat-card {
+    width: 90%;
+    margin-bottom: 10px;
+}
+.form-content{
+    padding: 30px;
+    width: 200px;
+}
+.button {
+    float: right;
+    width: 80px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+.field {
+    margin-right: 20px;
+}

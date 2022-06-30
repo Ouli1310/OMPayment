@@ -1,0 +1,31 @@
+.card-container {
+    padding: 0px;
+    margin-top: 0px;
+    position: absolute;
+    align-self: center;
+    }
+    .form-content{
+        padding: 30px;
+    }
+    .toolbar{
+        text-align: center;
+        background-color:crimson;
+    
+    }
+    .mat-button{
+       background-color: rgb(41, 117, 240);
+       width: 80px;
+       align-self: center;
+    }
+    .title-center{
+        flex: 1 1 auto;
+    }
+    .formulaire {
+        align-self: center;
+    }
+    .mat-card {
+        align-self: center;
+        margin-top: 20px;
+        height: 550px;
+        margin-bottom: 20px;
+    }

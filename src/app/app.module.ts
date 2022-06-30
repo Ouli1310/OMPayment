@@ -3,12 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegistrationComponent } from './registration/registration.component';
-import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './components/registration/registration.component';
+import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModel } from '@angular/forms';
-import { ProfilComponent } from './profil/profil.component';
+import { ProfilComponent } from './components/profil/profil.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
@@ -25,16 +25,29 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { MatDividerModule } from '@angular/material/divider';
-import { MenuComponent } from './menu/menu.component';
-import { AddTransactionComponent } from './transactions/add-transaction/add-transaction.component';
-import { ListeTransactionComponent } from './transactions/liste-transaction/liste-transaction.component';
-
+import { MenuComponent } from './components/menu/menu.component';
+import { AddTransactionComponent } from './components/transactions/add-transaction/add-transaction.component';
+import { ListeTransactionComponent } from './components/transactions/liste-transaction/liste-transaction.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { AuthInterceptor } from './_helpers/auth.interceptor';
+import { FilterTransaction } from './components/transactions/liste-transaction/filter-transaction';
+import { LayoutComponent } from './components/layout/layout.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import {MatListModule} from '@angular/material/list';
+import { ChartComponent } from './components/chart/chart.component';
+import { ChartistModule } from 'ng-chartist';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +59,14 @@ import {MatTabsModule} from '@angular/material/tabs';
     HomeComponent,
     MenuComponent,
     AddTransactionComponent,
-    ListeTransactionComponent
+    ListeTransactionComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent,
+    HomeComponent,
+    FilterTransaction,
+    LayoutComponent,
+    SidebarComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
@@ -71,9 +91,16 @@ import {MatTabsModule} from '@angular/material/tabs';
     ButtonModule,
     CardModule,
     MatGridListModule,
-    MatTabsModule
+    MatTabsModule,
+    MatButtonToggleModule,
+    MatSidenavModule,
+    MatNativeDateModule,
+    MatRippleModule,
+    MatListModule,
+    ChartistModule
   ],
-  providers: [HomeComponent],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { LoginComponent } from '../login/login.component';
+import { LoginComponent } from '../components/login/login.component';
 //import { stringify } from 'querystring';
 import { environment } from 'src/environments/environment';
 import { Profil, User } from '../model/user';
@@ -53,4 +53,15 @@ export class AuthService {
     return this.http.post<User>(`${environment.apiUrl}/auth/signup`, data, httpOptions);
   } 
 
+  resetPassword(email: any): Observable<any> {
+    console.log(email)
+    this.tokenService.saveUser(email);
+  return this.http.post(`${environment.apiUrl}/auth/resetPassword`, email, {responseType: 'text'});
+  }
+
+  changePassword(email: String, password: String): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/auth/changePassword`, {email, password});
+  }
+
 }
+
