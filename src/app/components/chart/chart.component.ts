@@ -6,6 +6,10 @@ import {
   IChartistData
 } from 'chartist';
 import { ChartEvent, ChartType } from 'ng-chartist';
+import { User } from 'src/app/model/user';
+import { TokenStorageService } from 'src/app/service/token-storage.service';
+import { TransactionService } from 'src/app/service/transaction.service';
+import { UserService } from 'src/app/service/user.service';
 
 export interface LegendItem {
   title: string;
@@ -25,15 +29,82 @@ export interface LegendItem {
 })
 export class ChartComponent implements OnInit {
 
-  constructor() {
+  userId: any;
+  user: User = new User;
+  
+  partnerId: any;
+  transactions: any = [];
+  i: any
+  status = ['SUCCESS', 'INITIATED']
+  list: Array<number> = []
+  constructor(private transactionService: TransactionService, private tokenStorage: TokenStorageService, private userServ: UserService) {
   }
 
   public ngOnInit(): void {
+
+    this.userId = this.tokenStorage.getUser();
+    console.log(this.userId)
+    this.userServ.getUserById(this.userId.id).subscribe(
+      data => {
+        this.user = data
+        console.log(this.user)
+        console.log(this.user.msisdn)
+        for(this.i in [0,1]) {
+          this.transactionService.getTransactionsByPartnerIdAndStatus(this.user.msisdn, this.status[this.i]).subscribe(
+            data => {
+    this.transactions = data
+    console.log(this.transactions)
+    this.list.push(this.transactions.length)
+   
+    console.log(this.list)
     
+            }
+          )
+          
+        }
+      /**   this.transactionService.getTransactionsByPartnerId(this.user.msisdn).subscribe(
+          data => {
+            this.transactions = data;
+            console.log(this.transactions)
+          }
+        )*/
+      }
+
+
+    )
+
+
+    this.getList()
+    
+
+  }
+
+  data2 = new Chartist.Bar('.ct-chart', {
+    labels: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
+    series: [20, 60, 120, 200, 180, 20, 10]
+  }, {
+    distributeSeries: true
+  });
+  
+
+
+  type1: ChartType = 'Pie'
+  data1: IChartistData = {
+    
+    labels: this.status,
+
+    series:
+   
+      [this.list]
+  }
+  
+  getList() {
+    console.log(this.list)
   }
 
   type: ChartType = 'Bar';
   data: IChartistData = {
+  
     labels: [
       'Jan',
       'Feb',
@@ -49,8 +120,7 @@ export class ChartComponent implements OnInit {
       'Dec'
     ],
     series: [
-      [5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8],
-      [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4]
+      [5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8]
     ]
   };
 
@@ -60,15 +130,16 @@ export class ChartComponent implements OnInit {
     },
     height: 300
   };
+  
 
   events: ChartEvent = {
-    draw: (data) => {
-      if (data.type === 'bar') {
-        data.element.animate({
+    draw: (data1) => {
+      if (data1.type === 'bar') {
+        data1.element.animate({
           y2: <IChartistAnimationOptions>{
             dur: '0.5s',
-            from: data.y1,
-            to: data.y2,
+            from: data1.y1,
+            to: data1.y2,
             easing: 'easeOutQuad'
           }
         });

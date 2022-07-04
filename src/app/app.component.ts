@@ -8,7 +8,4 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent {
   title = 'ompayment';
-
-  url = window.location.href
-  homeUrl = environment.loginUrl
 }
