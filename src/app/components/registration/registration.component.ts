@@ -1,6 +1,6 @@
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
+
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { User, Profil } from 'src/app/model/user';
 import { AuthService } from 'src/app/service/auth.service';
 import { ProfilService } from 'src/app/service/profil.service';
@@ -12,7 +12,7 @@ import { ProfilService } from 'src/app/service/profil.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  registerForm!: FormGroup;
+  registerForm!: UntypedFormGroup;
 
   /* form: any = {
     firstName: null,
@@ -31,7 +31,7 @@ export class RegistrationComponent implements OnInit {
   profils!: Profil[];
   submitted = false;
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private profilService: ProfilService) { }
+  constructor(private authService: AuthService, private formBuilder: UntypedFormBuilder, private profilService: ProfilService) { }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({

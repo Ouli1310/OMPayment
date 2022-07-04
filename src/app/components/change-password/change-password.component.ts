@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
@@ -15,7 +15,7 @@ export class ChangePasswordComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private tokenStorageService: TokenStorageService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class ChangePasswordComponent implements OnInit {
       console.log(this.email)
   }
 
-  changePasswordForm!: FormGroup;
+  changePasswordForm!: UntypedFormGroup;
   errorMessage = '';
   newPassword!: String;
   submitted = false;

@@ -46,7 +46,7 @@
  * Zone JS is required by default for Angular itself.
  */
 import 'zone.js';  // Included with Angular CLI.
-import 'core-js/es/symbol';
+/**import 'core-js/es/symbol';
 import 'core-js/es/object';
 import 'core-js/es/function';
 import 'core-js/es/parse-int';
@@ -61,7 +61,7 @@ import 'core-js/es/map';
 import 'core-js/es/set';
 import 'core-js/es/reflect';
 
-import 'core-js/es/reflect';
+import 'core-js/es/reflect'; */
 
 (window as any).global = window;
 /***************************************************************************************************

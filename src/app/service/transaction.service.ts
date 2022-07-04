@@ -1,5 +1,4 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { newArray } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -29,6 +28,15 @@ export class TransactionService {
 getTransactionsByStatus(status: String): Observable<any> {
   return this.http.get(environment.apiUrl+'/transaction/'+status);
 }
+
+getTransactionsByPartnerId(partnerId: string): Observable<any> {
+  return this.http.get(environment.apiUrl+'/transaction/partner/'+partnerId);
+}
+
+getTransactionsByPartnerIdAndStatus(partnerId: string, status: string): Observable<any> {
+  return this.http.get(environment.apiUrl+'/transaction/partner/'+partnerId+"/"+status);
+}
+
 
 getAllMethod(): Observable<any> {
   return this.http.get(environment.apiUrl+"/transaction/method");

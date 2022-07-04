@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginRequest } from 'src/app/model/user';
 import { AuthService } from 'src/app/service/auth.service';
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private tokenStorageService: TokenStorageService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router
     ) { }
 
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   }
   
-  loginForm!: FormGroup;
+  loginForm!: UntypedFormGroup;
   isLoggedIn = false
   errorMessage = '';
   submitted = false;

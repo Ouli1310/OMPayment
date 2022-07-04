@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Form, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Customer, IdType, Method, Money, Partner, TransactionRequest } from 'src/app/model/transactionRequest';
 import { User } from 'src/app/model/user';
@@ -14,14 +14,14 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class AddTransactionComponent implements OnInit {
 
-  firstForm!: FormGroup;
-  secondeForm!: FormGroup;
-  thirdForm!: FormGroup;
-  forthForm!: FormGroup;
-  fifthForm!: FormGroup;
-  sixthForm!: FormGroup;
-  seventhForm!: FormGroup;
-  eighthForm!: FormGroup;
+  firstForm!: UntypedFormGroup;
+  secondeForm!: UntypedFormGroup;
+  thirdForm!: UntypedFormGroup;
+  forthForm!: UntypedFormGroup;
+  fifthForm!: UntypedFormGroup;
+  sixthForm!: UntypedFormGroup;
+  seventhForm!: UntypedFormGroup;
+  eighthForm!: UntypedFormGroup;
   pinCode!: any;
   user: any;
   user1: User = new User();
@@ -37,7 +37,7 @@ export class AddTransactionComponent implements OnInit {
   idPartner!: any;
 
 
-  constructor(private tokenStorage: TokenStorageService, private router: Router, private formBuilder: FormBuilder, private userService: UserService, private transactionService: TransactionService) { }
+  constructor(private tokenStorage: TokenStorageService, private router: Router, private formBuilder: UntypedFormBuilder, private userService: UserService, private transactionService: TransactionService) { }
 
   ngOnInit(): void {
 

@@ -1,4 +1,4 @@
-import { error } from '@angular/compiler/src/util';
+
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
@@ -34,7 +34,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ListeTransactionComponent implements OnInit {
 
   isNewTransaction!: boolean
-  displayedColumns: string[] = ['id', 'transactionId', 'requestId', 'reference', 'partner', 'customer', 'valeur', 'status'];
+  displayedColumns: string[] = ['id', 'transactionId', 'requestId', 'reference', 'partner', 'customer', 'date', 'valeur', 'status'];
   dataSource = ELEMENT_DATA;
 
   user: any;
