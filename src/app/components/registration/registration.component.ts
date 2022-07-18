@@ -1,8 +1,9 @@
 
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { User, Profil } from 'src/app/model/user';
+import { User, Profil, Entite } from 'src/app/model/user';
 import { AuthService } from 'src/app/service/auth.service';
+import { EntiteService } from 'src/app/service/entite.service';
 import { ProfilService } from 'src/app/service/profil.service';
 
 @Component({
@@ -30,20 +31,31 @@ export class RegistrationComponent implements OnInit {
   profilChoisi!: Profil;
   profils!: Profil[];
   submitted = false;
+  entiteChoisi!: Entite;
+  entites!: Entite[];
 
-  constructor(private authService: AuthService, private formBuilder: UntypedFormBuilder, private profilService: ProfilService) { }
+  constructor(
+    private authService: AuthService, 
+    private formBuilder: UntypedFormBuilder, 
+    private profilService: ProfilService,
+    private entiteService: EntiteService
+    ) { }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      msisdn: ['', Validators.required],
-      profil: ['', Validators.required]
+      msisdn: [''],
+      code: [''],
+      profil: ['', Validators.required],
+      entite: [''],
     })
 
 
     this.getProfils();
+
+    this.getEntites();
   }
 
   get firstName() {
@@ -64,6 +76,11 @@ export class RegistrationComponent implements OnInit {
 
   get profil() {
     return this.registerForm.get('profil');
+  }
+
+  
+  get entite() {
+    return this.registerForm.get('entite');
   }
 
   get f() {
@@ -94,8 +111,22 @@ export class RegistrationComponent implements OnInit {
     )
   }
 
+  getEntites() {
+    this.entiteService.getAllEntites().subscribe(
+      data => {
+        this.entites = data
+        console.log(this.entites)
+      }
+    )
+  }
+
   getProfilChoisi(p: Profil) {
     this.profilChoisi = p;
+    console.log(this.profilChoisi.code)
+  }
+
+  getEntiteChoisi(e: Entite) {
+    this.entiteChoisi = e;
   }
 
   onSubmit(): void {
@@ -105,7 +136,9 @@ export class RegistrationComponent implements OnInit {
     newUser.lastName = this.f['lastName'].value
     newUser.email = this.f['email'].value
     newUser.msisdn = this.f['msisdn'].value
+    newUser.code = this.f['code'].value
     newUser.profil = this.profilChoisi.id
+    newUser.entite = this.entiteChoisi?.id
     console.log(newUser)
     this.authService.registration(newUser).subscribe (
       {

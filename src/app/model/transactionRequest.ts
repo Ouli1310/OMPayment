@@ -32,12 +32,15 @@ export class OneStepRequest {
 }
 
 export class Transaction {
-    transactionId!: number;
-    requestId!: number;
+    transactionId!: string;
+    requestId!: string;
     description!: string;
-    customerId!: number;
-    partnerId!: number;
+    customerId!: string;
+    partnerId!: string;
     status!: string;
+    value!: number;
+    date!: Date;
+    reference!: string;
 }
 
 export class Method {

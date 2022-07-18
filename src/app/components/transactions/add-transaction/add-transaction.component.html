@@ -1,5 +1,12 @@
 
-<div class="card-container" fxLayout="column" fxLayoutAlign="start center" fxFlexFill >
+<div class="container">
+
+  <div class="row" class="mb-5 my-5">
+    <button pButton type="button" icon="pi pi-list" label="Transactions" 
+    class="p-button-raised p-button-danger p-button-rounded p-button"
+     iconPos="left" (click)="goToTransactions()"></button>
+  </div>
+ 
 <div class="mat-card">
   <mat-tab-group>
     <mat-tab label="Méthode de paiement"> 

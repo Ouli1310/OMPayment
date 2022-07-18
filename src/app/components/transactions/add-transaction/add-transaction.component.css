@@ -1,6 +1,9 @@
-.card-container {
+.container {
     margin-top: 20px;
+    margin-bottom: 10px;
     width: 100%;
+    position: relative;
+
 }
 .mat-card {
     width: 90%;

@@ -46,6 +46,11 @@ import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {MatListModule} from '@angular/material/list';
 import { ChartComponent } from './components/chart/chart.component';
 import { ChartistModule } from 'ng-chartist';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ChartsModule } from 'ng2-charts';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
+var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 
 @NgModule({
@@ -66,7 +71,8 @@ import { ChartistModule } from 'ng-chartist';
     FilterTransaction,
     LayoutComponent,
     SidebarComponent,
-    ChartComponent
+    ChartComponent,
+    CanvasJSChart
   ],
   imports: [
     BrowserModule,
@@ -97,7 +103,10 @@ import { ChartistModule } from 'ng-chartist';
     MatNativeDateModule,
     MatRippleModule,
     MatListModule,
-    ChartistModule
+    ChartistModule,
+    MatAutocompleteModule,
+    ChartsModule,
+    MatDatepickerModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

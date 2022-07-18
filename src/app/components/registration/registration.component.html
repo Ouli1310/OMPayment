@@ -61,18 +61,6 @@
             </div>
         </mat-form-field>
         <mat-form-field>
-          <input matInput id="msisdn" type="number" formControlName = "msisdn" required minlength="7" maxlength="7" placeholder="msisdn">
-            <div class="alert-danger" *ngIf="f['msisdn'].errors && f['msisdn'].touched">
-              <div *ngIf="f['msisdn'].errors?.['required']">MSISDN is required</div>
-              <div *ngIf="f['msisdn'].errors?.['minlength']">
-                MSISDN must be at least 7 characters
-              </div>
-              <div *ngIf="f['msisdn'].errors?.['maxlength']">
-                MSISDN must be at most 7 characters
-              </div>
-            </div>
-        </mat-form-field>
-        <mat-form-field>
           <mat-select id="profil" type="text" formControlName="profil" placeholder="profil">
             <mat-option *ngFor="let p of profils" [value]=p (onSelectionChange) = "getProfilChoisi(p)">
               {{p.name}}
@@ -83,6 +71,37 @@
               
             </div>
         </mat-form-field>
+        <mat-form-field *ngIf="profilChoisi?.code !='DAF'">
+          <mat-select id="entite" type="text" formControlName="entite" placeholder="entite">
+            <mat-option *ngFor="let e of entites" [value]=e (onSelectionChange) = "getEntiteChoisi(e)">
+              {{e.name}}
+            </mat-option>
+          </mat-select>
+         <div class="alert-danger" *ngIf="f['entite'].errors && f['entite'].touched">
+              <div *ngIf="f['entite'].errors?.['required']">Entite is required</div>
+              
+            </div>
+        </mat-form-field>
+        <mat-form-field *ngIf="profilChoisi?.code !='DAF'">
+          <input matInput id="msisdn" type="text" formControlName = "msisdn" minlength="7" maxlength="7" placeholder="msisdn">
+            <div class="alert-danger" *ngIf="f['msisdn'].errors && f['msisdn'].touched">
+              <div *ngIf="f['msisdn'].errors?.['required']">MSISDN is required</div>
+              <div *ngIf="f['msisdn'].errors?.['minlength']">
+                MSISDN must be at least 7 characters
+              </div>
+              <div *ngIf="f['msisdn'].errors?.['maxlength']">
+                MSISDN must be at most 7 characters
+              </div>
+            </div>
+        </mat-form-field>
+        <mat-form-field *ngIf="profilChoisi?.code !='DAF'">
+          <input matInput id="code" type="text" formControlName = "code" placeholder="code marchand">
+            <div class="alert-danger" *ngIf="f['code'].errors && f['code'].touched">
+              <div *ngIf="f['code'].errors?.['required']">MSISDN is required</div>
+             
+            </div>
+        </mat-form-field>
+       
         <button [disabled]="registerForm.invalid" class="mat-button" mat-raised-button  type="submit" >Sign Up</button>
         <div class="alert alert-danger" *ngIf="submitted && !isSuccessful">
           Signup failed!<br />

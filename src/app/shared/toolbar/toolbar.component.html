@@ -1,15 +1,42 @@
-<div class="toolbar" role="banner" *ngIf="url != loginUrl && url != homeUrl && url != registerUrl">
-  <img class="img" src="../../../assets/images/logo.jpg" height="50" width="50">
-    <span>Plateforme de payment OM</span>
-      <div class="spacer"></div>
-        <!--<mat-icon aria-hidden="false" aria-label="Example login icon" matTooltip="Connectez-vous ici">login</mat-icon>-->
-        <!--<button class="mat-flat-button" (click)="login()">
-          Login
-        </button>-->
-         <button mat-raised-button (click)="logout()">
-          Déconnexion
-        </button>
-        
-      <div style="margin: 5px;"></div>
+
+  <div class="example-container">
+
+    <mat-toolbar class="example-toolbar toolbar-expand-lg bg-dark">
+      <a class="navbar-brand" href="/home">
+        <img src="../../../assets/images/Logo-Trans.png" width="200" height="40" /></a>
+        <a class="nav-item nav-link" *ngIf="(isLogged$ | async)" href="/chart">
+          <mat-icon class="icon"> show_chart</mat-icon>
+          <i class="pi pi-chart" style="font-size: 1.3rem; color: red;"> Charts</i>
+        </a>
+        <a class="nav-item nav-link" *ngIf="(isLogged$ | async)" href="/transactions">
+          <i class="pi pi-bookmark-fill" style="font-size: 1.3rem; color: red;"> Transactions</i>
+        </a>
+        <span class="example-spacer"></span>
+   
+  <div class="form-inline my-0 my-lg-0">
+    <button  *ngIf="!(isLogged$ | async)" pButton type="button" class="p-button-success p-button-text" label="Connexion" icon="pi pi-sign-in" iconPos="right" (click)="login()"> </button>
+    <button *ngIf="(isLogged$ | async)  && (profil == 'AD')"  pButton type="button" class="p-button-warning p-button-text" label="Nouvel utilisateur" icon="pi pi-user-plus" iconPos="left" (click)="register()"> </button>
+   <!-- <button  *ngIf="isLogged$ | async"  pButton type="button" class="p-button-danger p-button-text" label="Deconnexion" icon="pi pi-sign-out" iconPos="right" (click)="logout()"> -->
     
+    
+
+    <button  *ngIf="isLogged$ | async" label="Compte" pButton type="button" class="p-button-danger p-button-text"> 
+      <mat-select class="select">
+        <mat-option value="two" (click)="profilPage()">Profil</mat-option>
+        <mat-option value="one"  (click)="logout()">Deconnexion</mat-option>
+      </mat-select>
+      <mat-icon aria-hidden="false" matSuffix>account_circle</mat-icon>
+     
+    </button>
+   
+</div>
+    </mat-toolbar>
+    <mat-toolbar class=" title p-3 text-center">
+        <h1 class="mb-7 ">Plateforme de Paiement Orange Money</h1>
+        <img src="../../../assets/images/MicrosoftTeams-image.png" width="150" height="50" /> 
+    </mat-toolbar>
+     
+    
+   
+   
   </div>

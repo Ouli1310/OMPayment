@@ -22,8 +22,8 @@
                 <p>Nom: {{currentUser.lastName}}</p>
                 <p>MSISDN: {{currentUser.msisdn}}</p>
                 <p>Code marchand: {{currentUser.code}}</p>
-                <p>Profil: {{currentUser.profil}}</p>
-                <p>Balance: {{currentUser.balance.value}} {{currentUser.balance.unit}}</p>
+                <p>Profil: {{profil.name}}</p>
+                <p>Balance: {{currentUser.balance?.value}} {{currentUser.balance?.unit}}</p>
             </mat-card-content>
           </div>
 

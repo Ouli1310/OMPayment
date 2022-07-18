@@ -1,4 +1,65 @@
+.content {
+    padding: 0px;
+    margin-top: 0px;
+    align-self: center;
+    position: relative;
+}
 .card {
     margin-top: 20px;
-    width: 50%;
+    width: 40%;
+    margin-left: 20px;
 }
+.mat-card {
+    align-self: center;
+    
+    text-align: center;
+    height: 80px;
+    margin-top: 20px;
+    width: 200px;
+    margin-right: 20px;
+}
+.card-container {
+float: right;
+}
+.field {
+    margin-left: 20px;
+    margin-top: 50px;
+}
+.figure{
+height: 400px;
+width: 40%;
+margin-bottom: 20px;
+}
+
+.row{
+    margin-top: 40px;
+    margin: auto;
+    position: relative;
+    width: 100%;
+    align-content: center;
+}
+
+.mat-card1 {
+    width: 300px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.backButton {
+	border-radius: 4px;
+	padding: 8px;
+	border: none;
+	font-size: 16px;
+	background-color: #2eacd1;
+	color: white;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+} 
+.figure1 {
+    height: 400px;
+    width: 60%;
+    margin-bottom: 20px;
+    }
+    

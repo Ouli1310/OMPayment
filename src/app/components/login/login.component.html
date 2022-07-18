@@ -46,7 +46,7 @@
             </div>
         </mat-form-field>
         <button [disabled]="loginForm.invalid" class="mat-button" mat-raised-button  type="submit" >Login</button>
-        <a href="/resetPassword">Mot de passe oublié ?</a>
+        <a class="link" href="/resetPassword">Mot de passe oublié ?</a>
         <div class="alert alert-danger" *ngIf="submitted && !isLoggedIn">
           login failed!<br />
         </div>

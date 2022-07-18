@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Transaction } from '../model/transactionRequest';
 import { AuthInterceptor } from '../_helpers/auth.interceptor';
 import { TokenStorageService } from './token-storage.service';
 
@@ -21,8 +22,8 @@ export class TransactionService {
 
   token = this.tokenService.getToken();
 
-  getAllTransactions(): Observable<any> {
-    return this.http.get(environment.apiUrl+'/transaction');
+  getAllTransactions(): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(environment.apiUrl+'/transaction');
 }
 
 getTransactionsByStatus(status: String): Observable<any> {

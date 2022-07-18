@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/service/auth.service';
+import { ProfilService } from 'src/app/service/profil.service';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { environment } from 'src/environments/environment';
 
@@ -9,28 +12,55 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
-
-  constructor(private router: Router, private tokeStorage: TokenStorageService) { }
-
-  url!: any;
-  homeUrl!: any;
-  loginUrl!: any;
-  registerUrl!: any;
+  
+  user!: any;
+  profil!: any;
+  public isLogged$!: Observable<boolean>;
+  constructor(
+    private router: Router,
+    private tokenStorage: TokenStorageService,
+    private authService: AuthService,
+    private profilService: ProfilService
+    ) { }
 
   ngOnInit(): void {
-    this.url = window.location.pathname;
-    console.log(this.url)
-    this.loginUrl = environment.loginUrl;
-    console.log(this.loginUrl)
-    this.homeUrl = environment.homeUrl;
-    console.log(this.homeUrl)
-    this.registerUrl = environment.registerUrl;
+    this.isLogged$ = this.authService.isLoggedIn
+    this.user = this.tokenStorage.getUser();
+    console.log(this.user)
+    this.profilService.getProfilById(this.user.profil).subscribe( data => {
+      console.log(data)
+      this.profil = data.code;
+      console.log(this.profil)
+    })
+    
+  }
+
+
+  login() {
+    this.router.navigate(['/login'])
+  }
+
+  register() {
+    this.router.navigate(['register'])
   }
 
   logout() {
-    this.tokeStorage.signout();
+    this.tokenStorage.signout()
+    this.authService.loggedIn.next(false)
     this.router.navigate([''])
   }
+
+  profilPage() {
+    this.router.navigate(['/profil'])
+  }
+
+  showPage() {
+    if(!this.isLogged$) {
+      this.router.navigate(["/home"])
+    }
+    
+  }
+
 
   
 }

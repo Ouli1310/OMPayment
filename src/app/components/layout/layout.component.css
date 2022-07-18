@@ -1,0 +1,11 @@
+.content {
+    padding: 0px;
+    margin-top: 0px;
+    align-self: center;
+    position: relative;
+}
+.example-card {
+    margin-top: 20px;
+    width: 40%;
+    margin-left: 20px;
+}

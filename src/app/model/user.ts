@@ -6,6 +6,13 @@ export class Balance {
 
 export class Profil {
     id!: number;
+    code!: string;
+    name!: string;
+}
+
+export class Entite {
+    id!: number;
+    code!: string;
     name!: string;
 }
 
@@ -23,6 +30,7 @@ export class User {
     code!: string;
     password!: string;
     profil!: number;
+    entite!: number;
     balance!: Balance;
 }
 

@@ -17,7 +17,7 @@ import { ProfilComponent } from './components/profil/profil.component';
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent},
+  { path: 'home', component: LayoutComponent},
   { path: 'menu', component: MenuComponent},
   { path: 'profil', component: ProfilComponent},
   { path: 'transactions', component: ListeTransactionComponent},
@@ -25,7 +25,8 @@ const routes: Routes = [
   { path: 'resetPassword', component: ResetPasswordComponent },
   { path: 'changePassword', component: ChangePasswordComponent },
   { path: 'sidebard', component: SidebarComponent},
-  { path: 'chart', component: ChartComponent }
+  { path: 'chart', component: ChartComponent },
+  { path: '', component: LayoutComponent}
 ];
 
 @NgModule({

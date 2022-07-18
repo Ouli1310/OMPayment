@@ -283,6 +283,10 @@ console.log(this.idTypeNumb)
       )
     }
     }
+
+    goToTransactions() {
+      this.router.navigate(["/transactions"])
+    }
    
 
 }
