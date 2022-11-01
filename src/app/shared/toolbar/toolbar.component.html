@@ -4,30 +4,68 @@
     <mat-toolbar class="example-toolbar toolbar-expand-lg bg-dark">
       <a class="navbar-brand" href="/home">
         <img src="../../../assets/images/Logo-Trans.png" width="200" height="40" /></a>
-        <a class="nav-item nav-link" *ngIf="(isLogged$ | async)" href="/chart">
-          <mat-icon class="icon"> show_chart</mat-icon>
-          <i class="pi pi-chart" style="font-size: 1.3rem; color: red;"> Charts</i>
+
+
+        <a  class="nav-item nav-link" *ngIf="(isLogged$ | async)  && (profil != 'AD')" href="/chart">
+          <i class="pi pi-chart-line" style="font-size: 1.3rem; color: orange;"> Charts</i>
         </a>
+        <div ngbDropdown class="d-inline-block" *ngIf="(isLogged$ | async)  && (profil == 'AD')">
+          <button id="dropdown1" ngbDropdownToggle pButton type="button" class="p-button-warning p-button-text" label="Stats" icon="pi pi-chart-line" > </button>
+          <div ngbDropdownMenu aria-labelledby="dropdown1">
+        
+            <!-- items as links -->
+            <a href="/chart" ngbDropdownItem>Charts</a>
+            <a href="/chart-synthese" ngbDropdownItem >Charts Synthese</a>
+             </div>
+        </div>
+
         <a class="nav-item nav-link" *ngIf="(isLogged$ | async)" href="/transactions">
           <i class="pi pi-bookmark-fill" style="font-size: 1.3rem; color: red;"> Transactions</i>
         </a>
         <span class="example-spacer"></span>
+        
    
   <div class="form-inline my-0 my-lg-0">
-    <button  *ngIf="!(isLogged$ | async)" pButton type="button" class="p-button-success p-button-text" label="Connexion" icon="pi pi-sign-in" iconPos="right" (click)="login()"> </button>
-    <button *ngIf="(isLogged$ | async)  && (profil == 'AD')"  pButton type="button" class="p-button-warning p-button-text" label="Nouvel utilisateur" icon="pi pi-user-plus" iconPos="left" (click)="register()"> </button>
+
+      <button  *ngIf="!(isLogged$ | async)" pButton type="button" class="p-button-success p-button-text" label="Connexion" icon="pi pi-sign-in" iconPos="right" (click)="login()"> </button>
+
+      <div ngbDropdown class="d-inline-block" *ngIf="(isLogged$ | async)  && (profil == 'AD')">
+
+      <a class="nav-item nav-link" *ngIf="(isLogged$ | async)" href="/cashIn">
+        <i class="pi pi-bookmark-fill" style="font-size: 1.3rem; color: white;"> CashIn</i>
+      </a>
+      </div>
+  
+    <div ngbDropdown class="d-inline-block" *ngIf="(isLogged$ | async)  && (profil == 'AD')">
+
+     
+      <button id="dropdown2" ngbDropdownToggle pButton type="button" class="p-button-warning p-button-text" label="Gestion des utilisateurs" icon="pi pi-user-plus" > </button>
+     
+      <div ngbDropdownMenu aria-labelledby="dropdown2">
+    
+        <!-- items as links -->
+        <a href="/register" ngbDropdownItem>Nouvel utilisateur</a>
+        <a href="/userManagement" ngbDropdownItem >Liste des utilisateurs</a>
+         </div>
+    </div>
+   
    <!-- <button  *ngIf="isLogged$ | async"  pButton type="button" class="p-button-danger p-button-text" label="Deconnexion" icon="pi pi-sign-out" iconPos="right" (click)="logout()"> -->
     
     
-
-    <button  *ngIf="isLogged$ | async" label="Compte" pButton type="button" class="p-button-danger p-button-text"> 
-      <mat-select class="select">
-        <mat-option value="two" (click)="profilPage()">Profil</mat-option>
-        <mat-option value="one"  (click)="logout()">Deconnexion</mat-option>
-      </mat-select>
-      <mat-icon aria-hidden="false" matSuffix>account_circle</mat-icon>
+    <div ngbDropdown class="d-inline-block" *ngIf="(isLogged$ | async)">
+      <button id="dropdown3" ngbDropdownToggle pButton type="button" class="p-button p-button-text" label="Compte" icon="pi pi-user"> </button>
      
-    </button>
+      <div ngbDropdownMenu aria-labelledby="dropdown3">
+    
+        <!-- items as links -->
+        <a (click)="profilPage()" ngbDropdownItem>Profil</a>
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem mat-button color="warn" (click)="logout()">Deconnexion</button>
+       
+         </div>
+    </div>
+
+
    
 </div>
     </mat-toolbar>

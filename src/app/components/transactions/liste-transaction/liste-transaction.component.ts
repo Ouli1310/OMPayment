@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ThemeService } from 'ng2-charts';
-import { Profil, User } from 'src/app/model/user';
+import { Entite, Profil, User } from 'src/app/model/user';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { TransactionService } from 'src/app/service/transaction.service';
 import { UserService } from 'src/app/service/user.service';
@@ -15,22 +15,9 @@ import { MatSort } from '@angular/material/sort';
 import { map, Observable, startWith } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
 import { ProfilService } from 'src/app/service/profil.service';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  status: string;
-}
+import { EntiteService } from 'src/app/service/entite.service';
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', status: 'RE' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He', status: 'RE' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li', status: 'EC' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be', status: 'EC' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B', status: 'EH' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C', status: 'EH' }
-];
+
 
 @Component({
   selector: 'app-liste-transaction',
@@ -48,22 +35,38 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
   newToken!: any;
   transacReu: any;
   status!: string;
-  partnerId!: string;
+  msisdn!: string;
   partner: string = '';
   pg!: MatPaginator
   list1: any;
   dates: any;
   profil!: string;
   myControl = new FormControl('');
-  filteredOptions!: Observable<Transaction[]>;
+  filteredOptions!: Observable<Entite[]>;
+  filteredNames!: Observable<User[]>;
   public isLogged$!: Observable<boolean>;
   dataSource: MatTableDataSource<Transaction> = new MatTableDataSource();
   transactions: Transaction[] = [];
   fileName= 'ExcelSheet.xlsx';
+  entites: Entite[] = [];
+  usersEntite: User[] = []
+  email!: string;
+  firstName!: string
+  user2: User = new User();
+  entite: Entite = new Entite()
+
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private transactionService: TransactionService, private tokenStorage: TokenStorageService, private router: Router, private userService: UserService, private authService: AuthService, private profilService: ProfilService) { }
+  constructor(
+    private transactionService: TransactionService, 
+    private tokenStorage: TokenStorageService, 
+    private router: Router, 
+    private userService: UserService, 
+    private authService: AuthService, 
+    private profilService: ProfilService,
+    private entiteService: EntiteService
+    ) { }
   @ViewChild(MatPaginator, { static: true }) set matPaginator(paginator: MatPaginator) {
     this.pg = paginator
   };
@@ -83,6 +86,12 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
       map(value => this._filter(value || '')),
     );
 
+    this.filteredNames = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter1(value || '')),
+    );
+
+
 
     if (this.tokenStorage.getToken() == null) {
       console.error("No token");
@@ -95,16 +104,42 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
     this.userService.getUserById(this.user.id).subscribe(
       data => {
         this.user1 = data
-        console.log("userrrrrrrrrrrrr111111111111", this.user1)
-        
-   
+      this.getUsersEntite(this.user1)
+        this.profilService.getProfilById(this.user1.profil).subscribe (
+          data => {
+            this.profil = data.code
+            console.log("profil=", this.profil)
+          }
+        )
+        console.log("USER 1", this.user1)
+        this.getTransactions(this.user1)
       }
     
     )
-    this.getTransactions(this.user1)
+   
 
+      this.getEntites()
 
+  }
 
+  getEntites() {
+    this.entiteService.getAllEntites().subscribe(
+      data => {
+        this.entites = data
+      }
+    )
+  }
+
+  getUsersEntite(user: User) {
+    console.log(user)
+   
+    this.userService.getUsersByEntite(user.entite).subscribe(
+      data => {
+        this.usersEntite = data
+        console.log("USERS ENTTE", this.usersEntite)
+      }
+    )
+    
   }
 
   getTransactions(user: User) {
@@ -113,47 +148,81 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
       console.log(data)
       this.profil = data.code;
       console.log(this.profil)
-      if(this.profil == 'AD') {
      
-        this.transactionService.getAllTransactions().subscribe(
-          data => {
-            this.transactions = data;
-            this.dataSource = new MatTableDataSource(data)
-            console.log('datasource', this.dataSource.data)
+          if(this.profil == 'AD' || this.profil == 'DAF') {
+            console.log("AAAAAAAAAAAA")
+     
+            this.transactionService.getTransactionsByMethode("CASHIN").subscribe(
+              data => {
+               
+                    this.transactions = data
+                    console.log('transactions', this.dataSource.data)
+                    this.dataSource = new MatTableDataSource(data)
+                    console.log('datasource', this.dataSource.data)
+                  }
+            )
+               
+               
+                
+              }
             
-          }
-        )
-      } else {
-        this.userService.getUserById(this.user.id).subscribe(
-          data => {
-            console.log("currentUser", data)
-            this.user1 = data
-        this.transactionService.getTransactionsByPartnerId(this.user1.msisdn).subscribe(
-          data => {
-            this.transactions = data;
+           else if(this.profil == 'CA') {
+            this.userService.getUserById(this.user.id).subscribe(
+              data => {
+                console.log("currentUser", data)
+                this.user1 = data
+            this.transactionService.getTransactionsByEntite(this.user1.entite).subscribe(
+              data => {
+                this.transactions = data;
+                this.dataSource = new MatTableDataSource(data)
+                console.log('datasource', this.dataSource.data)
+              }
+            )}
+            ) 
+    
+          }else
+            {
+            this.userService.getUserById(this.user.id).subscribe(
+              data => {
+                console.log("currentUser", data)
+                this.user1 = data
+            this.transactionService.getTransactionsByAgent(this.user1.email).subscribe(
+              data => {
+                this.transactions = data;
+                console.log("transactons", this.transactions)
+                this.dataSource = new MatTableDataSource(data)
+                console.log('datasource', this.dataSource.data)
+                
+              }
+              
+            )})
             
-   
-            this.dataSource = new MatTableDataSource(data)
-            console.log('datasource', this.dataSource.data)
-            
-          }
+          } 
           
-        )})
-        
-      }
+    
+  
+
       
-    })
   
   
+        })
   
    
   }
 
-  private _filter(value: string): Transaction[] {
+  private _filter1(value: string): User[] {
+    console.log(this.usersEntite)
   
     const filterValue = value.toLowerCase();
-console.log("this datasource",   this.getTransactions(this.user1))
-    return this.transactions.filter(option => option.partnerId.toLowerCase().includes(filterValue));
+//console.log("this datasource",   this.getTransactions(this.user1))
+    return this.usersEntite.filter(option => option.firstName.toLowerCase().includes(filterValue));
+  }
+
+  private _filter(value: string): Entite[] {
+    console.log(this.entites)
+    const filterValue = value.toLowerCase();
+//console.log("this datasource",   this.getTransactions(this.user1))
+    return this.entites.filter(option => option.msisdn.toLowerCase().includes(filterValue));
   }
 
 
@@ -184,8 +253,22 @@ console.log("this datasource",   this.getTransactions(this.user1))
   }
 
   getNumbChoisi(p: string) {
-    this.partnerId = p
-    console.log("current partner idw", this.partnerId)
+  
+        this.msisdn = p
+        console.log("current partner idw", this.msisdn)
+     
+  }
+
+  getfirstNameChoisi(p: string) {
+    this.firstName = p
+    this.userService.getUserByFirstName(this.firstName).subscribe(
+      data => {
+        this.user2 = data
+        this.email = this.user2.email
+        console.log(this.email)
+      }
+    )
+   
   }
 
 

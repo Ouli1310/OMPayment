@@ -12,8 +12,10 @@ export class Profil {
 
 export class Entite {
     id!: number;
-    code!: string;
     name!: string;
+    code_marchand!: string;
+    msisdn!: string;
+    
 }
 
 export class LoginRequest {
@@ -31,6 +33,7 @@ export class User {
     password!: string;
     profil!: number;
     entite!: number;
+    status!: boolean
     balance!: Balance;
 }
 

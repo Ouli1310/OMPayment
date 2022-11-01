@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
 import { ProfilService } from 'src/app/service/profil.service';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
+import { TransactionService } from 'src/app/service/transaction.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -15,12 +16,14 @@ export class ToolbarComponent implements OnInit {
   
   user!: any;
   profil!: any;
+  newToken!: any
   public isLogged$!: Observable<boolean>;
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
     private authService: AuthService,
-    private profilService: ProfilService
+    private profilService: ProfilService,
+    private transactionService: TransactionService
     ) { }
 
   ngOnInit(): void {
@@ -50,8 +53,21 @@ export class ToolbarComponent implements OnInit {
     this.router.navigate([''])
   }
 
+  chart() {
+    this.router.navigate(['/chart'])
+  }
+
+  chartSynthese() {
+    this.router.navigate(['/chart-synthese'])
+  }
+
   profilPage() {
+    this.transactionService.newTokenTransaction(this.user.id).subscribe(
+      data => {
+        this.newToken = data
+        console.log(this.newToken)
     this.router.navigate(['/profil'])
+      })
   }
 
   showPage() {
@@ -61,6 +77,7 @@ export class ToolbarComponent implements OnInit {
     
   }
 
+  
 
   
 }

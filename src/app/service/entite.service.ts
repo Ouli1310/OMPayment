@@ -13,4 +13,12 @@ export class EntiteService {
   getAllEntites(): Observable<any> {
     return this.http.get(environment.apiUrl+'/entite');
   }
+
+  getEntiteById(id: number): Observable<any> {
+    return this.http.get(environment.apiUrl+'/entite/'+id);
+  }
+
+  getEntiteByName(name: string): Observable<any> {
+    return this.http.get(environment.apiUrl+'/entite/name/'+name);
+  }
 }

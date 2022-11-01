@@ -3,13 +3,24 @@
   <div>
     <mat-form-field appearance="fill" *ngIf="profil == 'AD'">
       <mat-label>Filter by</mat-label>
-      <mat-autocomplete #auto="matAutocomplete" [(ngModel)]="partnerId" ngDefaultControl>
+      <mat-autocomplete #auto="matAutocomplete" [(ngModel)]="msisdn" ngDefaultControl>
        
-        <mat-option *ngFor="let option of filteredOptions | async"  [value]="option.partnerId" (onSelectionChange)="getNumbChoisi(option.partnerId)" (click)="applyFilterByStatus(partnerId)">
-          {{option.partnerId}}
+        <mat-option *ngFor="let option of filteredOptions | async"  [value]="option.name" (onSelectionChange)="getNumbChoisi(option.msisdn)" (click)="applyFilterByStatus(option.msisdn)">
+        {{option.name}}
         </mat-option>
       </mat-autocomplete>
       <input type="text" placeholder="Pick one" aria-label="Number" matInput  [formControl]="myControl" [matAutocomplete]="auto">
+      
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="profil == 'CA'">
+      <mat-label>Filter by</mat-label>
+      <mat-autocomplete #auto="matAutocomplete" [(ngModel)]="firstName" ngDefaultControl>
+       
+        <mat-option *ngFor="let option of filteredNames | async"  [value]="option.firstName" (onSelectionChange)="getfirstNameChoisi(option.firstName)" (click)="applyFilterByStatus(email)">
+         {{option.firstName}}
+        </mat-option>
+      </mat-autocomplete>
+      <input type="text" placeholder="Pick one" aria-label="text" matInput  [formControl]="myControl" [matAutocomplete]="auto">
       
     </mat-form-field>
   </div>
@@ -26,7 +37,7 @@
 
  
 
-  <div class="row" class="mb-5 my-5">
+  <div class="row" class="mb-5 my-5" >
     <button pButton type="button" icon="pi pi-plus" label="Nouvelle transaction"
       class="p-button-raised p-button-danger p-button-rounded p-button" iconPos="left"
       (click)="getNewTokenTransaction()"></button>
@@ -117,7 +128,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator *ngIf="!isNewTransaction" [length]="transactions?.length" [pageSize]="10"
+    <mat-paginator *ngIf="!isNewTransaction" [length]="transactions.length" [pageSize]="10"
       [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
     </mat-paginator>
 

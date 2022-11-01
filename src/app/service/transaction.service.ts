@@ -38,6 +38,30 @@ getTransactionsByPartnerIdAndStatus(partnerId: string, status: string): Observab
   return this.http.get(environment.apiUrl+'/transaction/partner/'+partnerId+"/"+status);
 }
 
+getTransactionsByEntite(entite: number): Observable<any> {
+  return this.http.get(environment.apiUrl+'/transaction/entite/'+entite);
+}
+
+getTransactionsByEntiteAndStatus(entite: number, status: string): Observable<any> {
+  return this.http.get(environment.apiUrl+'/transaction/entite/'+entite+'/'+status);
+}
+
+getTransactionsByAgent(email: string): Observable<any> {
+  return this.http.get(environment.apiUrl+'/transaction/agent/'+email);
+}
+
+getTransactionsByAgentAndStatus(email: string, status: string): Observable<any> {
+  return this.http.get(environment.apiUrl+'/transaction/agent/'+email+'/'+status);
+}
+
+getTransactionBetween2Dates(date1: any, date2: any): Observable<any> {
+  return this.http.get(environment.apiUrl+'/transaction/dates/'+date1+'/'+date2);
+}
+
+getTransactionByEntiteAndBetween2Dates(entite: number, date1: any, date2: any): Observable<any> {
+  return this.http.get(environment.apiUrl+'/transaction/entite/'+entite+'/dates/'+date1+'/'+date2);
+}
+
 
 getAllMethod(): Observable<any> {
   return this.http.get(environment.apiUrl+"/transaction/method");
@@ -45,6 +69,10 @@ getAllMethod(): Observable<any> {
 
 getAllIdType(): Observable<any> {
   return this.http.get(environment.apiUrl+"/transaction/idType");
+}
+
+getTransactionsByMethode(methode: string): Observable<any> {
+  return this.http.get(environment.apiUrl+'/transaction/method/'+methode);
 }
 
 newTokenTransaction(id: any): Observable<any> {
@@ -57,6 +85,10 @@ initTransasction(id: any, data: any): Observable<any> {
 
 oneStepPayment(id: any, data: any): Observable<any> {
   return this.http.post<any>(environment.apiUrl+'/transaction/oneStepPayment/'+id, data);
+}
+
+getProfile(id: any, msisdn: any): Observable<any> {
+  return this.http.get<any>(environment.apiUrl+'/transaction/getProfile/'+id+'?msisdn='+msisdn+'&type=retailer')
 }
 
 }

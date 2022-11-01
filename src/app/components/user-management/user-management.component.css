@@ -1,0 +1,15 @@
+.container {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    position: relative;
+
+}
+table {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.button {
+    margin-right: 20px;
+}

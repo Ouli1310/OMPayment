@@ -32,6 +32,7 @@ export class OneStepRequest {
 }
 
 export class Transaction {
+    methode!: string
     transactionId!: string;
     requestId!: string;
     description!: string;

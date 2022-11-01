@@ -62,4 +62,16 @@ margin-bottom: 20px;
     width: 60%;
     margin-bottom: 20px;
     }
+
+    .mat-card3 {
+        align-self: center;
+        
+        text-align: center;
+        height: 80px;
+        margin-top: 20px;
+        width: 200px;
+        margin-right: 20px;
+        background-color:cornflowerblue;
+    }
+
     

@@ -74,6 +74,10 @@ export class RegistrationComponent implements OnInit {
     return this.registerForm.get('msisdn');
   }
 
+  get code() {
+    return this.registerForm.get('code');
+  }
+
   get profil() {
     return this.registerForm.get('profil');
   }
@@ -135,10 +139,14 @@ export class RegistrationComponent implements OnInit {
     newUser.firstName = this.f['firstName'].value
     newUser.lastName = this.f['lastName'].value
     newUser.email = this.f['email'].value
-    newUser.msisdn = this.f['msisdn'].value
-    newUser.code = this.f['code'].value
     newUser.profil = this.profilChoisi.id
-    newUser.entite = this.entiteChoisi?.id
+   
+      newUser.msisdn = this.f['msisdn'].value
+      newUser.code = this.f['code']?.value
+      
+      newUser.entite = this.entiteChoisi?.id
+    
+  
     console.log(newUser)
     this.authService.registration(newUser).subscribe (
       {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, ObservedValueOf } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Profil } from '../model/user';
+import { Profil, User } from '../model/user';
 
  
 
@@ -13,8 +13,17 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  getAllUsers(): Observable<any> {
+    return this.http.get<any>(environment.apiUrl+'/user/');
+  }
+
   getUserById(id: any): Observable<any> {
     return this.http.get<any>(environment.apiUrl+'/user/'+id);
+
+  }
+
+  getUserByFirstName(firstName: string): Observable<any> {
+    return this.http.get<any>(environment.apiUrl+'/user/firstName/'+firstName);
 
   }
 
@@ -24,6 +33,18 @@ export class UserService {
 
   getIdByIdType(id: any, idType: any): Observable<any> {
     return this.http.get<string>(environment.apiUrl+"/user/"+id+"/"+idType);
+  }
+
+  getUsersByEntite(entite: number): Observable<any> {
+    return this.http.get<any>(environment.apiUrl+'/user/entite/'+entite)
+  }
+
+  updateUser(id: number, user: User): Observable<any> {
+    return this.http.put<any>(environment.apiUrl+'/user/updateUser/'+id, user)
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete<any>(environment.apiUrl+'/user/deleteUser/'+id)
   }
 
 }

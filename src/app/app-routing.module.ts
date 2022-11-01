@@ -13,6 +13,11 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ChartComponent } from './components/chart/chart.component';
 import { ProfilComponent } from './components/profil/profil.component';
+import { ChartSyntheseComponent } from './components/chart-synthese/chart-synthese.component';
+import { UserManagementComponent } from './components/user-management/user-management.component';
+import { UpdateUserComponent } from './components/update-user/update-user.component';
+import { CashInComponent } from './components/cash-in/cash-in.component';
+import { ListeCashInsComponent } from './components/liste-cash-ins/liste-cash-ins.component';
 
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
@@ -26,7 +31,12 @@ const routes: Routes = [
   { path: 'changePassword', component: ChangePasswordComponent },
   { path: 'sidebard', component: SidebarComponent},
   { path: 'chart', component: ChartComponent },
-  { path: '', component: LayoutComponent}
+  { path: '', component: LayoutComponent},
+  { path: 'chart-synthese', component: ChartSyntheseComponent},
+  { path: 'userManagement', component: UserManagementComponent},
+  { path: 'user/updateUser/:id', component: UpdateUserComponent},
+  { path: 'cashIn', component: ListeCashInsComponent},
+  { path: 'cashIn/add-cashIn', component: CashInComponent},
 ];
 
 @NgModule({

@@ -50,6 +50,22 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ChartsModule } from 'ng2-charts';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
+import { ChartSyntheseComponent } from './components/chart-synthese/chart-synthese.component';
+import { UserManagementComponent } from './components/user-management/user-management.component';
+import { 
+	IgxDropDownModule,
+	IgxButtonModule,
+	IgxToggleModule
+ } from "igniteui-angular";
+ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { UpdateUserComponent } from './components/update-user/update-user.component';
+import { MomentDateModule } from '@angular/material-moment-adapter';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {DatePipe} from '@angular/common';
+import { CashInComponent } from './components/cash-in/cash-in.component';
+import { ListeCashInsComponent } from './components/liste-cash-ins/liste-cash-ins.component';
+
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 
@@ -72,7 +88,12 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     LayoutComponent,
     SidebarComponent,
     ChartComponent,
-    CanvasJSChart
+    CanvasJSChart,
+    ChartSyntheseComponent,
+    UserManagementComponent,
+    UpdateUserComponent,
+    CashInComponent,
+    ListeCashInsComponent
   ],
   imports: [
     BrowserModule,
@@ -91,6 +112,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     MatTooltipModule,
     MatFormFieldModule,
     MatInputModule,
+    MomentDateModule,
     FlexLayoutModule,
     MatToolbarModule,
     MatDividerModule,
@@ -106,9 +128,15 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     ChartistModule,
     MatAutocompleteModule,
     ChartsModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    IgxDropDownModule,
+	IgxButtonModule,
+	IgxToggleModule,
+  NgbModule,
+  MatSlideToggleModule,
+  MatProgressSpinnerModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, DatePipe],
   bootstrap: [AppComponent]
 })
 
