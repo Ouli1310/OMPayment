@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
+const PROFIL_KEY = 'auth-profil';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,22 @@ export class TokenStorageService {
     if(user) {
       return JSON.parse(user);
       console.log(user)
+    }
+    return{};
+  }
+
+  public saveProfil(profil: any): void {
+    console.log("profil to save", profil)
+    window.sessionStorage.removeItem(PROFIL_KEY);
+    window.sessionStorage.setItem(PROFIL_KEY, JSON.stringify(profil));
+    console.log("save profil", profil)
+  }
+
+  public getProfil(): any {
+    const profil = window.sessionStorage.getItem(PROFIL_KEY);
+    if(profil) {
+      return JSON.parse(profil);
+      console.log(profil)
     }
     return{};
   }

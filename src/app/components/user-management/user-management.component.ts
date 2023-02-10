@@ -16,6 +16,7 @@ export class UserManagementComponent implements OnInit {
 
 
   users: User[] = [];
+  user: User = new User
   dataSource: MatTableDataSource<User> = new MatTableDataSource();
 
 
@@ -26,6 +27,7 @@ export class UserManagementComponent implements OnInit {
 
   ngOnInit(): void {
 
+   
     this.allUsers()
     
   }
@@ -44,5 +46,19 @@ export class UserManagementComponent implements OnInit {
   updateUser(id: number) {
 this.router.navigate(['user/updateUser/'+id])
   }
+
+  isBlocked(email: string) {
+    this.userService.getUserByEmail(email).subscribe(
+      data => {
+        this.user = data
+        console.log("user ??", this.user)
+        this.isChecked = this.user.status
+        console.log("Blocked ??", this.isChecked)
+      } 
+    )
+
+  }
+
+
 
 }

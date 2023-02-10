@@ -65,6 +65,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DatePipe} from '@angular/common';
 import { CashInComponent } from './components/cash-in/cash-in.component';
 import { ListeCashInsComponent } from './components/liste-cash-ins/liste-cash-ins.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogAnimationsExampleDialogComponent } from './components/dialog-animations-example-dialog/dialog-animations-example-dialog.component';
 
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
@@ -93,7 +95,8 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     UserManagementComponent,
     UpdateUserComponent,
     CashInComponent,
-    ListeCashInsComponent
+    ListeCashInsComponent,
+    DialogAnimationsExampleDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -134,7 +137,8 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 	IgxToggleModule,
   NgbModule,
   MatSlideToggleModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatDialogModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, DatePipe],
   bootstrap: [AppComponent]

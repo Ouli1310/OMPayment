@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
+import { DataService } from 'src/app/service/data.service';
 import { ProfilService } from 'src/app/service/profil.service';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { TransactionService } from 'src/app/service/transaction.service';
@@ -12,29 +13,34 @@ import { environment } from 'src/environments/environment';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnInit, OnDestroy {
   
   user!: any;
   profil!: any;
   newToken!: any
+  ngUnsubscribe = new Subject()
   public isLogged$!: Observable<boolean>;
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
     private authService: AuthService,
     private profilService: ProfilService,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private dataServ: DataService
     ) { }
-
+  
   ngOnInit(): void {
     this.isLogged$ = this.authService.isLoggedIn
-    this.user = this.tokenStorage.getUser();
-    console.log(this.user)
-    this.profilService.getProfilById(this.user.profil).subscribe( data => {
-      console.log(data)
-      this.profil = data.code;
-      console.log(this.profil)
-    })
+    
+  this.dataServ.currentProfil.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+    data => {
+      this.profil = data
+      console.log("PROFLTTTTTTTTTTTTTTT", this.profil)
+    }
+   )  
+
+  
+   
     
   }
 
@@ -75,6 +81,13 @@ export class ToolbarComponent implements OnInit {
       this.router.navigate(["/home"])
     }
     
+  }
+
+
+  ngOnDestroy(): void {
+    //this.ngUnsubscribe.complete()
+
+    throw new Error('Method not implemented.');
   }
 
   

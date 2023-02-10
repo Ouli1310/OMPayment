@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Form, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Customer, IdType, Method, Money, Partner, TransactionRequest } from 'src/app/model/transactionRequest';
@@ -6,6 +6,30 @@ import { User } from 'src/app/model/user';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { TransactionService } from 'src/app/service/transaction.service';
 import { UserService } from 'src/app/service/user.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { DialogAnimationsExampleDialogComponent } from '../../dialog-animations-example-dialog/dialog-animations-example-dialog.component';
+
+
+@Component({
+  selector: 'app-error-message-popup',
+  template: `
+    <h1 mat-dialog-title>Error</h1>
+    <div mat-dialog-content>
+      {{data.message}}
+    </div>
+    <div mat-dialog-actions>
+  <button mat-button mat-dialog-close style="margin-right: 20px;"> No </button>
+  <button mat-button mat-dialog-close cdkFocusInitial> Ok </button>
+</div>
+  `
+})
+
+export class ErrorMessagePopupComponent {
+  constructor(
+    public dialogRef: MatDialogRef<ErrorMessagePopupComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+}
 
 @Component({
   selector: 'app-add-transaction',
@@ -37,7 +61,7 @@ export class AddTransactionComponent implements OnInit {
   idPartner!: any;
 
 
-  constructor(private tokenStorage: TokenStorageService, private router: Router, private formBuilder: UntypedFormBuilder, private userService: UserService, private transactionService: TransactionService) { }
+  constructor(private tokenStorage: TokenStorageService, private router: Router, private formBuilder: UntypedFormBuilder, private userService: UserService, private transactionService: TransactionService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -190,6 +214,17 @@ export class AddTransactionComponent implements OnInit {
 console.log(this.idTypeNumb)
   }
 
+  openModal(errorMessage: string) {
+    this.errorMessage = errorMessage;
+    console.log(this.errorMessage)
+   
+    this.dialog.open(ErrorMessagePopupComponent, {
+      width: '250px',
+      data: {message: this.errorMessage}
+     
+    });
+  }
+
 
   initTransaction() {
     this.submitted = true;
@@ -231,10 +266,12 @@ console.log(this.idTypeNumb)
             console.log(data)
         console.log(this.isSuccessful)
         this.router.navigate(['/transactions'])
+
           },   error: err => {
-            this.errorMessage = err.error.message;
-            console.log("fffffffffffffffffffffff")
-            console.log(err.error)
+            this.errorMessage = err.error;
+            console.log(this.errorMessage)
+            
+          this.openModal(err.error.text)
           }
         }
      
@@ -275,8 +312,8 @@ console.log(this.idTypeNumb)
         this.router.navigate(['/transactions'])
           },   error: err => {
             this.errorMessage = err.error.message;
-            console.log("fffffffffffffffffffffff")
-            console.log(err.error)
+            console.log(this.errorMessage)
+            console.log(err)
           }
         }
      

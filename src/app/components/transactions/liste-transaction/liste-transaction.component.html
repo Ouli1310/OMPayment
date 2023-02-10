@@ -38,14 +38,14 @@
  
 
   <div class="row" class="mb-5 my-5" >
-    <button pButton type="button" icon="pi pi-plus" label="Nouvelle transaction"
+    <button pButton type="button" *ngIf="profil != 'AD'" icon="pi pi-plus" label="Nouvelle transaction"
       class="p-button-raised p-button-danger p-button-rounded p-button" iconPos="left"
       (click)="getNewTokenTransaction()"></button>
 
     <mat-button-toggle-group class="listeTransactions" [(ngModel)]="status">
       <mat-button-toggle value="SUCCESS" (click)="applyFilterByStatus(status)">Reussite</mat-button-toggle>
       <mat-button-toggle value="INITIATED" (click)="applyFilterByStatus(status)">En cours...</mat-button-toggle>
-      <mat-button-toggle value="FAILED" (click)="applyFilterByStatus(status)">Echec...</mat-button-toggle>
+      <mat-button-toggle value="ECHEC" (click)="applyFilterByStatus(status)">Echec...</mat-button-toggle>
       
     </mat-button-toggle-group>
    

@@ -12,10 +12,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Transaction } from 'src/app/model/transactionRequest';
 import * as XLSX from 'xlsx';
 import { MatSort } from '@angular/material/sort';
-import { map, Observable, startWith } from 'rxjs';
+import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
 import { ProfilService } from 'src/app/service/profil.service';
 import { EntiteService } from 'src/app/service/entite.service';
+import { DataService } from 'src/app/service/data.service';
 
 
 
@@ -54,6 +55,7 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
   firstName!: string
   user2: User = new User();
   entite: Entite = new Entite()
+  ngUnsubscribe = new Subject()
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -65,7 +67,8 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
     private userService: UserService, 
     private authService: AuthService, 
     private profilService: ProfilService,
-    private entiteService: EntiteService
+    private entiteService: EntiteService,
+    private dataServ: DataService
     ) { }
   @ViewChild(MatPaginator, { static: true }) set matPaginator(paginator: MatPaginator) {
     this.pg = paginator
@@ -80,7 +83,16 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.isLogged$ = this.authService.isLoggedIn
+
+    this.dataServ.currentProfil.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+      data => {
+        console.log("PROFLLLLLLLLLLLL", data)
+        this.profil = data
+      
+      }
+     )  
     
+     
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
@@ -105,12 +117,7 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
       data => {
         this.user1 = data
       this.getUsersEntite(this.user1)
-        this.profilService.getProfilById(this.user1.profil).subscribe (
-          data => {
-            this.profil = data.code
-            console.log("profil=", this.profil)
-          }
-        )
+        
         console.log("USER 1", this.user1)
         this.getTransactions(this.user1)
       }

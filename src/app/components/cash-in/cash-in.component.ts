@@ -217,8 +217,8 @@ export class CashInComponent implements OnInit {
    
     
 
-    goToTransactions() {
-      this.router.navigate(["/transactions"])
+    goToCashIns() {
+      this.router.navigate(["/cashIn"])
     }
    
 
