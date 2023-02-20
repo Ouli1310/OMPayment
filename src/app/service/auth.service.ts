@@ -49,12 +49,12 @@ export class AuthService {
   }
 
   registration(data: User): Observable<any>{
-    console.log("user from registration", data)
+    //console.log("user from registration", data)
     return this.http.post<User>(`${environment.apiUrl}/auth/signup`, data, httpOptions);
   } 
 
   resetPassword(email: any): Observable<any> {
-    console.log(email)
+   // console.log(email)
     this.tokenService.saveUser(email);
   return this.http.post(`${environment.apiUrl}/auth/resetPassword`, email, {responseType: 'text'});
   }

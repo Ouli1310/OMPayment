@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { DataService } from './data.service';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
@@ -10,12 +11,12 @@ const PROFIL_KEY = 'auth-profil';
 })
 export class TokenStorageService {
 
-  constructor() { }
+  constructor(
+    private dataserv: DataService
+  ) { }
 
   signout(): void {
     window.sessionStorage.clear();
-    
-
   }
 
   public saveToken(token: string): void {
@@ -35,15 +36,16 @@ export class TokenStorageService {
     console.log("save user", user)
   }
 
-  public getUser(): any {
+  public getUser(): any | null {
     const user = window.sessionStorage.getItem(USER_KEY);
     if(user) {
       return JSON.parse(user);
       console.log(user)
     }
-    return{};
+    return null;
   }
 
+  /*
   public saveProfil(profil: any): void {
     console.log("profil to save", profil)
     window.sessionStorage.removeItem(PROFIL_KEY);
@@ -55,9 +57,8 @@ export class TokenStorageService {
     const profil = window.sessionStorage.getItem(PROFIL_KEY);
     if(profil) {
       return JSON.parse(profil);
-      console.log(profil)
     }
-    return{};
+    return null;
   }
-
+*/
   }

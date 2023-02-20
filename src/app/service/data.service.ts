@@ -1,26 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { Profil } from '../model/user';
+import { BehaviorSubject} from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 
 
 export class DataService {
 
-  constructor() { }
-
-  public profil!: string 
-
-  public profilSubject = new Subject<string>()
-
-  public profilSource = new BehaviorSubject(this.profil)
-
+  private profilSource = new BehaviorSubject('noProfil')
   currentProfil = this.profilSource.asObservable()
 
+  constructor() { }
+
   changeProfil(profil: string) {
-    console.log("changeeeee", profil)
     this.profilSource.next(profil)
   }
 }

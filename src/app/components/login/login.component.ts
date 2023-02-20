@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginRequest, User } from 'src/app/model/user';
@@ -8,6 +8,7 @@ import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { UserService } from 'src/app/service/user.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DataService } from 'src/app/service/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-error-message-popup',
@@ -37,9 +38,9 @@ export class ErrorMessagePopupComponent {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
-  profil: any;
-
+export class LoginComponent implements OnInit, OnDestroy {
+  profil!: string;
+  subscription!: Subscription
 
   constructor(
     private authService: AuthService,
@@ -56,7 +57,8 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]})
-
+      this.subscription = this.dataServ.currentProfil.subscribe(profil => this.profil = profil)
+      console.log( 'profiol from login', this.profil)
   }
   
   loginForm!: UntypedFormGroup;
@@ -94,27 +96,26 @@ export class LoginComponent implements OnInit {
           this.authService.login(this.f['email'].value, this.f['password'].value).subscribe ({
     
             next: data => {
-              console.log(data)
+             // console.log(data)
               this.tokenStorageService.saveToken(data.token);
               this.tokenStorageService.saveUser(data);
               //this.reloadPage();
-              this.authService.loggedIn.next(true)  
-              this.dataServ.changeProfil(data.profil)   
+              this.authService.loggedIn.next(true) 
+                
               this.profilServ.getProfilById(data.profil).subscribe( data => {
-                console.log("dataaaaaaaaaaaaaaaaaaaaaaaaa", data)
-                this.profil = data.code;
-                this.tokenStorageService.saveProfil(this.profil)
-                console.log(this.profil)
-                this.dataServ.changeProfil(data.code)
+               // console.log("dataaaaaaaaaaaaaaaaaaaaaaaaa", data)
+               this.profil = data.code
+               this.dataServ.changeProfil(data.code) 
+                console.log('Profil from login',this.profil)
 
               })
               this.router.navigate(['/transactions'])
-          console.log(this.isLoggedIn)
+          //console.log(this.isLoggedIn)
             },
             error: err => {
               this.authService.loggedIn.next(false)
-              console.log(err)
-              console.log(err.error.text)
+             // console.log(err)
+             // console.log(err.error.text)
               this.errorMessage = err.error.text;
               this.openModal(this.errorMessage)
             }
@@ -124,14 +125,12 @@ export class LoginComponent implements OnInit {
         
         }
     
-    
-   
-   
-    
-  
-
-  reloadPage(): void {
+  /*reloadPage(): void {
     window.location.reload();
+  }*/
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 
 }

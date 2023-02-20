@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Transaction } from 'src/app/model/transactionRequest';
 import * as XLSX from 'xlsx';
 import { MatSort } from '@angular/material/sort';
-import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
+import { map, Observable, startWith, Subject, Subscription, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
 import { ProfilService } from 'src/app/service/profil.service';
 import { EntiteService } from 'src/app/service/entite.service';
@@ -25,7 +25,7 @@ import { DataService } from 'src/app/service/data.service';
   templateUrl: './liste-transaction.component.html',
   styleUrls: ['./liste-transaction.component.css']
 })
-export class ListeTransactionComponent implements OnInit, AfterViewInit {
+export class ListeTransactionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isNewTransaction!: boolean
   displayedColumns: string[] = ['id', 'transactionId', 'requestId', 'reference', 'partnerId', 'customerId', 'date', 'valeur', 'status'];
@@ -55,7 +55,7 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
   firstName!: string
   user2: User = new User();
   entite: Entite = new Entite()
-  ngUnsubscribe = new Subject()
+  subscription!: Subscription;
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -83,14 +83,7 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     this.isLogged$ = this.authService.isLoggedIn
-
-    this.dataServ.currentProfil.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
-      data => {
-        console.log("PROFLLLLLLLLLLLL", data)
-        this.profil = data
-      
-      }
-     )  
+    
     
      
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -112,13 +105,13 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
     }
     this.isNewTransaction = false
     this.user = this.tokenStorage.getUser();
-    console.log(this.user)
+    //console.log(this.user)
     this.userService.getUserById(this.user.id).subscribe(
       data => {
         this.user1 = data
       this.getUsersEntite(this.user1)
         
-        console.log("USER 1", this.user1)
+      //  console.log("USER 1", this.user1)
         this.getTransactions(this.user1)
       }
     
@@ -138,23 +131,70 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
   }
 
   getUsersEntite(user: User) {
-    console.log(user)
+    //console.log(user)
    
     this.userService.getUsersByEntite(user.entite).subscribe(
       data => {
         this.usersEntite = data
-        console.log("USERS ENTTE", this.usersEntite)
+        //console.log("USERS ENTTE", this.usersEntite)
       }
     )
     
   }
 
   getTransactions(user: User) {
-    console.log("userrrrrr", this.user)
+    this.subscription = this.dataServ.currentProfil.subscribe(profil => {
+      this.profil = profil
+      console.warn('profil transaction', this.profil)
+    })
+    if(this.profil == 'AD' || this.profil == 'DAF') {
+      this.transactionService.getTransactionsByMethode("CASHIN").subscribe(
+        data => {
+         
+              this.transactions = data
+              this.dataSource = new MatTableDataSource(data)
+            }
+      )}   else if(this.profil == 'CA') {
+        this.userService.getUserById(this.user.id).subscribe(
+          data => {
+            console.log("currentUser", data)
+            this.user1 = data
+        this.transactionService.getTransactionsByEntite(this.user1.entite).subscribe(
+          data => {
+            this.transactions = data;
+            this.dataSource = new MatTableDataSource(data)
+            console.log('datasource', this.dataSource.data)
+          }
+        )}
+        ) 
+
+      }else
+        {
+        this.userService.getUserById(this.user.id).subscribe(
+          data => {
+            console.log("currentUser", data)
+            this.user1 = data
+        this.transactionService.getTransactionsByAgent(this.user1.email).subscribe(
+          data => {
+            this.transactions = data;
+            console.log("transactons", this.transactions)
+            this.dataSource = new MatTableDataSource(data)
+            console.log('datasource', this.dataSource.data)
+            
+          }
+          
+        )})   
+      } 
+  }
+  
+/*
+  getTransactions(user: User) {
+  //  console.log("userrrrrr", this.user)
     this.profilService.getProfilById(this.user.profil).subscribe( data => {
-      console.log(data)
+     // console.log(data)
       this.profil = data.code;
-      console.log(this.profil)
+     // this.dataServ.changeProfil(data.code)
+      console.log('profiiiiil from transactions', this.profil)
      
           if(this.profil == 'AD' || this.profil == 'DAF') {
             console.log("AAAAAAAAAAAA")
@@ -163,9 +203,9 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
               data => {
                
                     this.transactions = data
-                    console.log('transactions', this.dataSource.data)
+                    //console.log('transactions', this.dataSource.data)
                     this.dataSource = new MatTableDataSource(data)
-                    console.log('datasource', this.dataSource.data)
+                    //console.log('datasource', this.dataSource.data)
                   }
             )
                
@@ -206,17 +246,9 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
             
           } 
           
-    
-  
-
-      
-  
-  
-        })
-  
-   
+        }) 
   }
-
+*/
   private _filter1(value: string): User[] {
     console.log(this.usersEntite)
   
@@ -328,6 +360,9 @@ export class ListeTransactionComponent implements OnInit, AfterViewInit {
  
   }
 
+  ngOnDestroy() {
+    //this.subscription.unsubscribe()
+  }
 
 }
 

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CashInRequest } from 'src/app/model/cashInRequest';
 import { Customer, IdType, Method, Money, Partner } from 'src/app/model/transactionRequest';
 import { User } from 'src/app/model/user';
 import { CashInService } from 'src/app/service/cash-in.service';
+import { DataService } from 'src/app/service/data.service';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { TransactionService } from 'src/app/service/transaction.service';
 import { UserService } from 'src/app/service/user.service';
@@ -41,17 +43,20 @@ export class CashInComponent implements OnInit {
   idPartner!: any;
 
 
+
   constructor(
     private tokenStorage: TokenStorageService, 
     private router: Router, 
     private formBuilder: UntypedFormBuilder, 
     private userService: UserService,
     private cashInService: CashInService,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+   
   ) { }
 
   ngOnInit(): void {
     
+  
     if(this.tokenStorage.getToken() == null) {
       console.error("No token");
       this.router.navigate([''])

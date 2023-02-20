@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
 import { DataService } from 'src/app/service/data.service';
 import { ProfilService } from 'src/app/service/profil.service';
@@ -16,37 +16,32 @@ import { environment } from 'src/environments/environment';
 export class ToolbarComponent implements OnInit, OnDestroy {
   
   user!: any;
-  profil!: any;
+  profil!: string;
   newToken!: any
-  ngUnsubscribe = new Subject()
+  subscription!: Subscription;
   public isLogged$!: Observable<boolean>;
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
     private authService: AuthService,
-    private profilService: ProfilService,
     private transactionService: TransactionService,
-    private dataServ: DataService
+    private dataServ: DataService,
     ) { }
   
   ngOnInit(): void {
     this.isLogged$ = this.authService.isLoggedIn
-    
-  this.dataServ.currentProfil.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
-    data => {
-      this.profil = data
-      console.log("PROFLTTTTTTTTTTTTTTT", this.profil)
-    }
-   )  
-
-  
+    this.subscription = this.dataServ.currentProfil.subscribe(profil => {
+      this.profil = profil
+      console.log('profil from toolbar ', this.profil)
+    })
    
-    
   }
 
 
   login() {
+    console.log('test')
     this.router.navigate(['/login'])
+    
   }
 
   register() {
@@ -84,10 +79,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
 
-  ngOnDestroy(): void {
-    //this.ngUnsubscribe.complete()
-
-    throw new Error('Method not implemented.');
+  ngOnDestroy() {
+   // this.subscription.unsubscribe()
   }
 
   

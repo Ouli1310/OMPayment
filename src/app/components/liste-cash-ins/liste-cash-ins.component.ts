@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ThemeService } from 'ng2-charts';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Transaction } from 'src/app/model/transactionRequest';
 import { User } from 'src/app/model/user';
 import { AuthService } from 'src/app/service/auth.service';
 import { CashInService } from 'src/app/service/cash-in.service';
+import { DataService } from 'src/app/service/data.service';
 import { ProfilService } from 'src/app/service/profil.service';
 import { TokenStorageService } from 'src/app/service/token-storage.service';
 import { TransactionService } from 'src/app/service/transaction.service';
@@ -17,7 +18,7 @@ import { UserService } from 'src/app/service/user.service';
   templateUrl: './liste-cash-ins.component.html',
   styleUrls: ['./liste-cash-ins.component.css']
 })
-export class ListeCashInsComponent implements OnInit {
+export class ListeCashInsComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['id', 'transactionId', 'requestId', 'reference', 'partnerId', 'customerId', 'date', 'valeur', 'status'];
 
@@ -28,7 +29,8 @@ export class ListeCashInsComponent implements OnInit {
   user1: User = new User()
   newToken: any
   public isLogged$!: Observable<boolean>;
-
+  profil!: string
+  subscription!: Subscription
   constructor(
     private cashInService: CashInService,
     private tokenStorage: TokenStorageService, 
@@ -37,11 +39,14 @@ export class ListeCashInsComponent implements OnInit {
     private userService: UserService, 
     private authService: AuthService, 
     private profilService: ProfilService,
+    private dataServ: DataService
   ) { }
 
   ngOnInit(): void {
 
     this.isLogged$ = this.authService.isLoggedIn
+    this.subscription = this.dataServ.currentProfil.subscribe(profil => this.profil = profil)
+    console.log('profil from cashIn ', this.profil)
 
     if (this.tokenStorage.getToken() == null) {
       console.error("No token");
@@ -110,5 +115,7 @@ export class ListeCashInsComponent implements OnInit {
                   }
                 }
               
-
+  ngOnDestroy(): void {
+    //this.subscription.unsubscribe()
+  }
 }

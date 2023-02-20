@@ -67,6 +67,7 @@ import { CashInComponent } from './components/cash-in/cash-in.component';
 import { ListeCashInsComponent } from './components/liste-cash-ins/liste-cash-ins.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DialogAnimationsExampleDialogComponent } from './components/dialog-animations-example-dialog/dialog-animations-example-dialog.component';
+import { DataService } from './service/data.service';
 
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
@@ -140,7 +141,7 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
   MatProgressSpinnerModule,
   MatDialogModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, DatePipe],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, DatePipe, DataService],
   bootstrap: [AppComponent]
 })
 
